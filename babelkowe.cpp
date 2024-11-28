@@ -7,16 +7,6 @@
 
 using namespace std;
 
-template <typename T>
-void bubblesort(T arr[], size_t n) {
-    for (size_t i = 0; i < n - 1; i++) {
-        for (size_t j = 0; j < n - i - 1; j++) {
-            if (arr[j] > arr[j + 1]) {
-                swap(arr[j], arr[j + 1]);
-            }
-        }
-    }
-}
 
 template <typename T>
 void bubblesort_for_for_pointer(T* arr, size_t n) {
@@ -50,23 +40,25 @@ void bubblesort_for_for_index(T arr[], size_t n) {
 
 template <typename T>
 void bubblesort_for_while_pointer(T* arr, size_t n) {
-    T* w1, * w2, temp;
-    for (size_t i = 0; i < n - 1; i++) {
+    bool zamiana = true;
+    while (zamiana) {
+        T* w1, * w2, temp;
+        zamiana = false;
         w1 = arr;
         w2 = w1 + 1;
-        size_t j = 0;
-        while (j < n - i - 1) {
+        for (size_t j = 0; j < n - 1; j++) {
             if (*w1 > *w2) {
                 temp = *w2;
                 *w2 = *w1;
                 *w1 = temp;
+                zamiana = true;
             }
             w1++;
             w2++;
-            j++;
         }
     }
 }
+
 
 template <typename T>
 void bubblesort_for_short_index(T arr[], size_t n) {
@@ -81,16 +73,18 @@ void bubblesort_for_short_index(T arr[], size_t n) {
 
 template <typename T>
 void bubblesort_for_while_index(T arr[], size_t n) {
-    for (size_t i = 0; i < n - 1; i++) {
-        size_t j = 0;
-        while (j < n - i - 1) {
+    bool zamiana = true;
+    while (zamiana) {
+        zamiana = false;
+        for (size_t j = 0; j < n - 1; j++) {
             if (arr[j] > arr[j + 1]) {
                 swap(arr[j], arr[j + 1]);
+                zamiana = true;
             }
-            j++;
         }
     }
 }
+
 
 template <typename T>
 void bubblesort_for_short_pointer(T* arr, size_t n) {
@@ -153,15 +147,10 @@ void wszystko(int n, ofstream& file) {
     file << "| Funkcja                      | Czas (int)         | Czas (float)       |\n";
     file << "|------------------------------|--------------------|--------------------|\n";
 
-    file << "| Template bubblesort          | "
-        << setw(15) << measure_time(bubblesort<int>, arr_int, n) << " ms" << " | "
-        << setw(15) << measure_time(bubblesort<float>, arr_float, n) << " ms" << " |\n";
-    copy_array(arr_int_copy, arr_int, n);
-    copy_array(arr_float_copy, arr_float, n);
 
     file << "| Bubblesort for for pointer   | "
-        << setw(15) << measure_time(bubblesort_for_for_pointer<int>, arr_int, n)<< " ms" << " | "
-        << setw(15) << measure_time(bubblesort_for_for_pointer<float>, arr_float, n) <<  " ms" << " | \n";
+        << setw(15) << measure_time(bubblesort_for_for_pointer<int>, arr_int, n) << " ms" << " | "
+        << setw(15) << measure_time(bubblesort_for_for_pointer<float>, arr_float, n) << " ms" << " | \n";
     copy_array(arr_int_copy, arr_int, n);
     copy_array(arr_float_copy, arr_float, n);
 
@@ -223,3 +212,4 @@ int main() {
 
     return 0;
 }
+
